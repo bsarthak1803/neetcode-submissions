@@ -1,0 +1,42 @@
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     constructor(val = 0, left = null, right = null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+
+class Solution { // use res as an array than an object
+    /**
+     * @param {TreeNode} root
+     * @return {number[][]}
+     */
+    // nested list
+    // sublist -> values of nodes at a particular level in the tree , left -> right
+    // [1, 2, 3, 4, 5, 6, 7]
+    // maintain a queue -> push nodes as we traverse -> start popping the elements from the first index (till queue is non empty)
+    // as you pop the element -> add the element to the level's sublist -> then push its children to the queue.
+    levelOrder(root) {
+        if(!root) return [];
+        let res = [];
+        let queue = [root];
+        while(queue.length > 0){
+            let n = queue.length; // length of the queue determines the elements in each level sublist
+            let levelSubList = [];
+            while(n > 0){ // run for each element of specific level
+                let topElement = queue.shift(); // pop the first element, remove first element from the array
+                // Enqueue valid children only
+                if(topElement) levelSubList.push(topElement.val);
+                if (topElement.left) queue.push(topElement.left);
+                if (topElement.right) queue.push(topElement.right);
+                n--;
+            }
+        if(levelSubList.length > 0)
+            res.push(levelSubList); // at the end push the level specific sublist to the res
+        }
+    return res;
+    }
+}
